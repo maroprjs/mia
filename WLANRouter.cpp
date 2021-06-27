@@ -21,12 +21,14 @@ void WLANRouter::loop(){
 	//placeholder
 }
 void WLANRouter::turnOn(){
-	Serial.println("_pwr->on()");
+	Serial.println("wlan _pwr->on()");
+	//_pwr->on();
 	_routerIsOff = false;
 
 }
 void WLANRouter::turnOff(){
-	Serial.print("_pwr->off()");
+	Serial.println("wlan _pwr->off()");
+	//_pwr->off();
 	_routerIsOff = true;
 
 }

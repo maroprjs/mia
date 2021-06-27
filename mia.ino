@@ -51,10 +51,12 @@ WLANButton wlanButton(WLAN_BUTTON_PIN, &wlanRouter, &gw);
 void setup()
 {
 	Serial.begin(9600);
+	Serial5.begin(9600);
 	wlanPwr.begin();
 	gwPwr.begin();
 	wlanButton.begin();
 	wlanRouter.begin();
+	gw.begin();
 
 }
 
@@ -65,4 +67,5 @@ void loop()
 	gwPwr.loop();
 	wlanButton.loop();
 	wlanRouter.loop();
+	gw.loop();
 }
