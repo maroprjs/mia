@@ -18,7 +18,8 @@ Gateway::Gateway(LatchingRelay* pwr) {
 }
 
 void Gateway::begin(){
-	turnOff();
+	//Serial.println("gw _pwr->off()");
+	_pwr->off();
 }
 
 void Gateway::loop(){
@@ -34,8 +35,8 @@ void Gateway::loop(){
 			Serial5.println("shutdown"); //TODO: is it okay to send every sec or should I add flag?
 		}
 		if (_countDown <= 0 ){
-			Serial.println("gw _pwr->off()");
-			//_pwr->off();
+			//Serial.println("gw _pwr->off()");
+			_pwr->off();
 			_gatewayIsOff = true;
 			stopShutDown();
 		}
@@ -44,7 +45,7 @@ void Gateway::loop(){
 	if (Serial5.available()){
 		ch = Serial5.read();
 		_lastCmd += (char)ch;
-		if (ch=='\r') {
+		if (ch=='\n') {
 			_lastCmd.trim();
 			//if stop countdown
 			Serial.println(_lastCmd);
@@ -63,8 +64,8 @@ void Gateway::loop(){
 	}
 }
 void Gateway::turnOn(){
-	Serial.println("gw _pwr->on()");
-	//_pwr->on();
+	//Serial.println("gw _pwr->on()");
+	_pwr->on();
 	_gatewayIsOff = false;
     startShutDown(LONG_COUNTDOWN);
 }
