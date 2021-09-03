@@ -20,12 +20,12 @@ Gateway::Gateway(LatchingRelay* pwr) {
 void Gateway::begin(){
 	//Serial.println("gw _pwr->off()");
 	//_pwr->off();
-	startShutDown(LONG_COUNTDOWN); //<-better to shut it down in a controlled way, in case gw is used for programming
+	//startShutDown(LONG_COUNTDOWN); //<-better to shut it down in a controlled way, in case gw is used for programming
 }
 
 void Gateway::loop(){
 	byte ch;
-	if (_shutdownOngoing == true){
+	if (_shutdownOngoing == true){ //requires serial listener on real gateway
 		if (_countDown > 0 ){
 		   if ((_countDownStepMillis + COUNTDOWN_TIME) < millis()){
               _countDown--;
@@ -33,7 +33,7 @@ void Gateway::loop(){
 		   }
 		}
 		if (_countDown <= SHORT_COUNTDOWN ){ //sends request to real gw to shutdown
-			Serial5.println("shutdown"); //TODO: is it okay to send every sec or should I add flag?
+			GATEWAY_SERIAL.println("shutdown"); //TODO: is it okay to send every sec or should I add flag?
 		}
 		if (_countDown <= 0 ){
 			//Serial.println("gw _pwr->off()");
@@ -43,14 +43,14 @@ void Gateway::loop(){
 		}
 	}
 
-	if (Serial5.available()){
-		ch = Serial5.read();
+	if (GATEWAY_SERIAL.available()){
+		ch = GATEWAY_SERIAL.read();
 		_lastCmd += (char)ch;
 		if (ch=='\n') {
 			_lastCmd.trim();
 			//if stop countdown
 			Serial.println(_lastCmd);
-			Serial5.println(_lastCmd); //mirror
+			GATEWAY_SERIAL.println(_lastCmd); //mirror
 			//TODO:
 			if (_lastCmd == "stop_shutdown"){
 			   stopShutDown();
@@ -68,7 +68,9 @@ void Gateway::turnOn(){
 	//Serial.println("gw _pwr->on()");
 	_pwr->on();
 	_gatewayIsOff = false;
-    startShutDown(LONG_COUNTDOWN);
+    //startShutDown(LONG_COUNTDOWN); //if triggered by wlan btn, gw not needed, should shutdown by itself, but cronjob doesnt start serial listener,
+	                                 //hence gw shuts down abruptly
+	                                 //TODO: check cronjob or find another way
 }
 
 void Gateway::turnOff(){
@@ -88,7 +90,7 @@ void Gateway::toggle(){
 void Gateway::startShutDown(unsigned long countdown){
 	_countDownStepMillis = millis();
 	_countDown = countdown;
-    _shutdownOngoing = true;
+    _shutdownOngoing = true; //from now on shutdown handled in loop function
 }
 
 void Gateway::stopShutDown(){

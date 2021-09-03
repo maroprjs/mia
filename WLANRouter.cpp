@@ -14,7 +14,7 @@ WLANRouter::WLANRouter(LatchingRelay* pwr) {
 }
 
 void WLANRouter::begin(){
-	turnOff();
+	//turnOff();
 }
 
 void WLANRouter::loop(){

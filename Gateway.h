@@ -11,6 +11,8 @@
 #define LONG_COUNTDOWN 780 //13min
 #define SHORT_COUNTDOWN 180 //3min
 #define COUNTDOWN_TIME 1000 //ms
+#define GATEWAY_SERIAL Serial5
+
 class Gateway {
 public:
 	Gateway(LatchingRelay* pwr);
@@ -19,10 +21,10 @@ public:
 	void turnOn();
 	void turnOff();
 	void toggle();
+	void stopShutDown();
 	virtual ~Gateway();
 private:
     void startShutDown(unsigned long countdown);
-    void stopShutDown();
 	LatchingRelay* _pwr;
 	bool _gatewayIsOff;
 	unsigned long _countDownStepMillis;
