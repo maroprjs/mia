@@ -12,6 +12,7 @@
 #include "Gateway.h"
 #include "WLANRouter.h"
 #include "GsmModem.h"
+#include "GsmModem.h"
 #include "MiaUI.h"
 #include "Eltako.h"
 #include "VictronCharger.h"
@@ -86,7 +87,7 @@ void setup()
 	wlanButton.begin();
 	wlanRouter.begin();
 	gw.begin();
-  eltako.begin();
+    eltako.begin();
 	charger.begin();
 	miaUI.begin();
 
@@ -95,13 +96,13 @@ void setup()
 // The loop function is called in an endless loop
 void loop()
 {
-	gsm.handle();//checks for incomming events -> SMSs
+	gsm.loop();//checks for incomming events -> SMSs
 	wlanPwr.loop();
 	gwPwr.loop();
 	wlanButton.loop();
 	wlanRouter.loop();
 	gw.loop();
-  eltako.loop();
+    eltako.loop();
 	charger.loop();
 	miaUI.loop();
 

@@ -27,7 +27,8 @@ void MiaUI::begin(){
 }
 
 void MiaUI::loop(){
-	if (_gsm->sms->newMsgArrived){/*defined in base class "subscriber"*/
+	/*
+	if (_gsm->sms->newMsgArrived){//defined in base class "subscriber"
 		//processSMS(swInfo);
 		String reply = "";
 	    String cmd = "";
@@ -41,6 +42,7 @@ void MiaUI::loop(){
 		}
 	    _gsm->delAllSms(_gsm->sms);//from device buffer
 	}
+   *//*
 	if (millis() > _lastCall + ONE_DAY){
 		_gsm->reset();
 		_gsm->sms->receiver = SUBSCRIBER_NUMBER;
@@ -48,11 +50,11 @@ void MiaUI::loop(){
 		//_gsm->sendSMS(_gsm->sms);
 		_lastCall = millis();
 
-	}
+	}*//*
 	if (millis() > _lastPublished + PUBLISH_INTERVAL){
 		_publishDeltas();
 		_lastPublished = millis();
-	}
+	}*/
 }
 
 /*************
@@ -104,6 +106,7 @@ bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 void MiaUI::_publishDeltas(){
 	//bi-state objects:
 	 //TODO
+	/*
 	//victron:
 	if (_chargerRawDataPublished != _chargerRawDataCurrent){
 		//receiver is last requestor
@@ -114,7 +117,7 @@ void MiaUI::_publishDeltas(){
 		_chargerRawDataPublished = _chargerRawDataCurrent;
     Serial.print("pubi2: ");
     Serial.println(_chargerRawDataPublished);
-	}
+	}*/
 
 
 }
