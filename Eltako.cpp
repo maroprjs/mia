@@ -21,7 +21,7 @@ Eltako::Eltako(uint8_t eltakoPin, uint8_t probePin) {
 void Eltako::begin(){
 	pinMode(_eltakoPin, OUTPUT);
 	pinMode(_probePin, INPUT);
-	digitalWrite(_eltakoPin, LOW);
+	digitalWrite(_eltakoPin, HIGH);
 	_lastTimeRead = millis();
 }
 void Eltako::loop(){
@@ -31,6 +31,7 @@ void Eltako::loop(){
 		_pobeCount4Avrg++;
 		if (_pobeCount4Avrg >= AVERAGE_COUNT){
 			_currentProbeValue = _accumulatedProbe4Avrg / _pobeCount4Avrg;
+      Serial.println(_currentProbeValue);
 			_accumulatedProbe4Avrg = 0;
 			_pobeCount4Avrg = 0;
 		}
@@ -45,12 +46,11 @@ void Eltako::loop(){
 }
 
 void Eltako::toggle(){
-	digitalWrite(_eltakoPin, HIGH);
-	delay(300);
 	digitalWrite(_eltakoPin, LOW);
+	delay(500);
+	digitalWrite(_eltakoPin, HIGH);
 }
 
 Eltako::~Eltako() {
 	// TODO Auto-generated destructor stub
 }
-

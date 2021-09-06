@@ -86,6 +86,7 @@ void setup()
 	wlanButton.begin();
 	wlanRouter.begin();
 	gw.begin();
+  eltako.begin();
 	charger.begin();
 	miaUI.begin();
 
@@ -100,6 +101,7 @@ void loop()
 	wlanButton.loop();
 	wlanRouter.loop();
 	gw.loop();
+  eltako.loop();
 	charger.loop();
 	miaUI.loop();
 

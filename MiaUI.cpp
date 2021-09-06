@@ -37,11 +37,11 @@ void MiaUI::loop(){
 		if (mmi(cmd)){
 			_gsm->sms->receiver = _gsm->sms->sender;
 			_gsm->sms->msg = cmd;
-			_gsm->sendSMS(_gsm->sms);
+			//_gsm->sendSMS(_gsm->sms);
 		}
 	    _gsm->delAllSms(_gsm->sms);//from device buffer
 	}
-	if (millis() > _lastCall + THREE_DAYS){
+	if (millis() > _lastCall + ONE_DAY){
 		_gsm->reset();
 		_gsm->sms->receiver = SUBSCRIBER_NUMBER;
 		_gsm->sms->msg = "reseted!";
@@ -66,11 +66,11 @@ bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 	cmd = cmd.trim();
 	cmd = cmd.toLowerCase();
 	if (cmd == "main on"){
-		if (_eltako->isOn()){
+		if (_eltako->isOff()){
 		   _eltako->toggle();Serial.println("Eltako was On, toggle off");
 		}
 	}else if (cmd == "main off"){
-		if (_eltako->isOff()){
+		if (_eltako->isOn()){
 		   _eltako->toggle();Serial.println("Eltako was Off, toggle on");
 		}
 	}else if (cmd == "wlan on"){
@@ -86,6 +86,10 @@ bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 
 	}else if (cmd == "victron"){ //victron values
 		_chargerRawDataCurrent =_charger->getRawData(); Serial.println("victron raw");
+    _lastPublished = millis();
+    //_gsm->sms->msg =_charger->getRawData(); Serial.println("victron raw");
+    //_gsm->sendSMS(_gsm->sms);
+    Serial.println(_chargerRawDataCurrent);
 	}else if (cmd == "efoy"){ //efoy values
 
 	}else{
@@ -105,7 +109,11 @@ void MiaUI::_publishDeltas(){
 		//receiver is last requestor
 		_gsm->sms->msg = _chargerRawDataCurrent;
 		_gsm->sendSMS(_gsm->sms);
+    Serial.print("pubi1: ");
+    Serial.println(_chargerRawDataPublished);
 		_chargerRawDataPublished = _chargerRawDataCurrent;
+    Serial.print("pubi2: ");
+    Serial.println(_chargerRawDataPublished);
 	}
 
 
@@ -114,4 +122,3 @@ void MiaUI::_publishDeltas(){
 MiaUI::~MiaUI() {
 	// TODO Auto-generated destructor stub
 }
-

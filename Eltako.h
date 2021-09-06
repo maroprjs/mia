@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 #define READ_INTERVAL 1000
-#define THRESHOLD  120
+#define THRESHOLD  450
 #define AVERAGE_COUNT 10
 
 class Eltako {
