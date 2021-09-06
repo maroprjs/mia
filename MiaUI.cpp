@@ -33,9 +33,10 @@ void MiaUI::loop(){
 		String reply = "";
 	    String cmd = "";
 		_gsm->_newMsgArrived = false;//message read
-		cmd = _gsm->_message;
-		//Serial.println(cmd);
-		if (mmi(cmd)){
+		cmd = _gsm->_message; 
+    cmd = cmd.trim();
+    cmd = cmd.toLowerCase();
+ 	  if (mmi(cmd)){
 			//_gsm->sms->receiver = _gsm->sms->sender;
 			_gsm->_message = cmd;
 			_gsm->_sms->send(_gsm->_lastSender.c_str(), _gsm->_message.c_str());
@@ -64,8 +65,8 @@ void MiaUI::loop(){
  */
 bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 	bool retVal = true;
-	cmd = cmd.trim();
-	cmd = cmd.toLowerCase();
+
+  //Serial.println(cmd);
 	if (cmd == "main on"){
 		if (_eltako->isOff()){
 		   _eltako->toggle();Serial.println("Eltako was Off, toggle on");
@@ -86,9 +87,10 @@ bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 	}else if (cmd == "weather"){ //ws2300
 
 	}else if (cmd == "victron"){ //victron values
-		_chargerRawDataCurrent =_charger->getRawData(); Serial.println("victron raw");
-        _lastPublished = millis();
-        Serial.println(_chargerRawDataCurrent);
+     //Serial.println("vici");
+		 _chargerRawDataCurrent =_charger->getRawData(); Serial.println("victron raw");
+     _lastPublished = millis();
+     //Serial.println(_chargerRawDataCurrent);
 	}else if (cmd == "efoy"){ //efoy values
 
 	}else{
@@ -111,7 +113,7 @@ void MiaUI::_publishDeltas(){
 		//_gsm->_sms->send(_gsm->_lastSender.c_str(),_chargerRawDataCurrent.c_str());
         Serial.print("pubi1: ");
         Serial.println(_chargerRawDataPublished);
-		_chargerRawDataPublished = _chargerRawDataCurrent;
+		    _chargerRawDataPublished = _chargerRawDataCurrent;
         Serial.print("pubi2: ");
         Serial.println(_chargerRawDataPublished);
 	}

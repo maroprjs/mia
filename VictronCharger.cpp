@@ -30,13 +30,15 @@ VictronCharger::~VictronCharger() {
 
 String  VictronCharger::getRawData() {
   String message = "";
-
-  //for ( int i = 0; i < _myve->veEnd; i++ ) {
-  //  message += _myve->veName[i];
-  //  message += ":";
-  //  message += _myve->veValue[i];
-  //  message += ";";
-  //};
+ 
+  for ( int i = 0; i < _myve->veEnd; i++ ) {
+    message += _myve->veName[i];
+    message += ":";
+    message += _myve->veValue[i];
+    message += ";";
+  };
+  
+  /*
   //message += _myve->veName[3]; //only voltage...long sms doesnt work properly (TODO)
   //message += ":";
   message += _myve->veValue[3];
@@ -47,7 +49,7 @@ String  VictronCharger::getRawData() {
   //message += ";";
   //message += _myve->veName[11]; //only voltage...long sms doesnt work properly (TODO)
   //message += ":";
-  //message += _myve->veValue[11];
+  //message += _myve->veValue[11];*/
   return message;
 }
 

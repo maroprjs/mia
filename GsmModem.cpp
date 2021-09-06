@@ -32,8 +32,8 @@ void GsmModem::loop(){
 
 	      /**/
 	      // This example for how you catch incoming calls.
-	      Serial.print("buf: ");
-	      Serial.println(buffer);
+	      //Serial.print("buf: ");
+	      //Serial.println(buffer);
 	      if(buffer.indexOf("+CMTI:") != -1) {
 
 	        Serial.print("SMS Index No... ");
@@ -45,17 +45,18 @@ void GsmModem::loop(){
           Serial.println(_lastSender);
 
           Serial.print("Read the message... ");
-          String teststr = _sms->readFromSerial(buffer);
-          Serial.println(teststr);
-            _message = teststr.substring(teststr.indexOf("MESSAGE:")+8);
+          //String teststr = _sms->readFromSerial(buffer);
+          _message = _sms->readFromSerial(buffer);
+          //Serial.println(teststr);
+          _message = _message.substring(_message.indexOf("MESSAGE:")+8);
           Serial.println(_message);
 
 	        //_sms->deleteAll();
 	        //Serial.print("SMS to any number... ");
 	        //Serial.println(_sms->send(sender.c_str(), "Selam kardesim, naber?"));
-	        _newMsgArrived;
+	        _newMsgArrived = true;
 	      } else {
-	        Serial.println(buffer);
+	        //Serial.println(buffer);
 	      }
 
 	  }
