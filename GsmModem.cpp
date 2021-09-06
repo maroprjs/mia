@@ -12,13 +12,75 @@ GsmModem::GsmModem(HardwareSerial *serial, int8_t rstpin, uint32_t bdrate ) {
 	_serial = serial;
 	_rstpin = rstpin;
 	_bdrate = bdrate;
+	_newMsgArrived = false;
+	_message = "";
+	_lastSender = SUBSCRIBER_NUMBER;
 
 }
 
 void GsmModem::begin(){
 	_serial->begin(_bdrate);
 	delay(1000);
-	_sms->init();
+	_initializeModem();
+
+
+}
+void GsmModem::loop(){
+	if(_serial->available()) {
+	      String buffer = "";
+	      buffer = _serial->readString();
+
+	      /**/
+	      // This example for how you catch incoming calls.
+	      Serial.print("buf: ");
+	      Serial.println(buffer);
+	      if(buffer.indexOf("+CMTI:") != -1) {
+
+	        Serial.print("SMS Index No... ");
+	        int indexno = _sms->indexFromSerial(buffer);
+	        Serial.println(indexno);
+
+	        Serial.print("Who send the message?...");
+          _lastSender = _sms->getSenderNo(indexno);
+          Serial.println(_lastSender);
+
+          Serial.print("Read the message... ");
+          String teststr = _sms->readFromSerial(buffer);
+          Serial.println(teststr);
+            _message = teststr.substring(teststr.indexOf("MESSAGE:")+8);
+          Serial.println(_message);
+
+	        //_sms->deleteAll();
+	        //Serial.print("SMS to any number... ");
+	        //Serial.println(_sms->send(sender.c_str(), "Selam kardesim, naber?"));
+	        _newMsgArrived;
+	      } else {
+	        Serial.println(buffer);
+	      }
+
+	  }
+}
+
+void GsmModem::reset(){
+    Serial.println("resetting modem!");
+    pinMode(_rstpin, OUTPUT);
+    digitalWrite(_rstpin, HIGH);
+    delay(10);
+    digitalWrite(_rstpin, LOW);
+    delay(100);
+    digitalWrite(_rstpin, HIGH);
+    delay(10000);
+    _initializeModem();
+    _sms->send(SUBSCRIBER_NUMBER, "modem reseted!");
+
+}
+
+GsmModem::~GsmModem() {
+	// TODO Auto-generated destructor stub
+}
+
+void GsmModem::_initializeModem(){
+	  _sms->init();
 	  Serial.print("Set Phone Function... ");
 	  Serial.println(_sms->setPhoneFunc(1));
 	  delay(1000);
@@ -45,37 +107,4 @@ void GsmModem::begin(){
 	  Serial.println(_sms->list(true)); // Its optional but highly recommended. Some function work with this function.
 	  delay(1000);
 
-
 }
-void GsmModem::loop(){
-	if(_serial->available()) {
-	      String buffer = "";
-	      buffer = _serial->readString();
-
-	      /**/
-	      // This example for how you catch incoming calls.
-	      Serial.print("buf: ");
-	      Serial.println(buffer);
-	      if(buffer.indexOf("+CMTI:") != -1) {
-
-	        Serial.print("SMS Index No... ");
-	        int indexno = _sms->indexFromSerial(buffer);
-	        Serial.println(indexno);
-
-	        Serial.print("Who send the message?...");
-	        Serial.println(_sms->getSenderNo(indexno));
-
-	        Serial.print("Read the message... ");
-	        Serial.println(_sms->readFromSerial(buffer));
-	        _sms->deleteAll();
-	      } else {
-	        Serial.println(buffer);
-	      }
-
-	  }
-}
-
-GsmModem::~GsmModem() {
-	// TODO Auto-generated destructor stub
-}
-
