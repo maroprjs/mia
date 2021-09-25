@@ -42,7 +42,7 @@ void MiaUI::loop(){
 		}else{
 			_gsm->_message = "command unknown";
 	         //_gsm->_sms->send(_gsm->_lastSender.c_str(),_gsm->_message.c_str());
-	         _gsm->_sms->send(_gsm->_lastSender.c_str(),_gsm->_message.c_str());
+	         _gsm->_sms->send(SUBSCRIBER_NUMBER,_gsm->_message.c_str());
 	    }
 	    _gsm->_sms->deleteAll();
 		_gsm->_newMsgArrived = false;//message read
@@ -89,10 +89,11 @@ bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 	}else if (cmd == "weather"){ //ws2300
 
 	}else if (cmd == "victron"){ //victron values
-     //Serial.println("vici");
-		 _chargerRawDataCurrent =_charger->getRawData(); Serial.println("victron raw");
-     _lastPublished = millis();
-     //Serial.println(_chargerRawDataCurrent);
+		//Serial.println("vici");
+		_chargerRawDataCurrent = _charger->getRawData(); Serial.println("victron raw");
+		_chargerRawDataCurrent = _chargerRawDataCurrent.trim();
+		_lastPublished = millis();
+		//Serial.println(_chargerRawDataCurrent);
 	}else if (cmd == "efoy"){ //efoy values
 
 	}else{

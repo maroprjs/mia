@@ -11,6 +11,7 @@
 VictronCharger::VictronCharger() {
 	_myve = new VeDirectFrameHandler();
 	_data_count = 0;
+	_lastRead = 0;
 
 }
 
@@ -20,8 +21,12 @@ void VictronCharger::begin(){
 }
 
 void VictronCharger::loop(){
-	  // Receive information on Serial from MPPT
-	  _readVEData();
+	if (millis() > _lastRead + READ_INTERVAL){
+		  // Receive information on Serial from MPPT
+		  _readVEData();
+		_lastRead = millis();
+	}
+
 }
 
 VictronCharger::~VictronCharger() {
@@ -100,11 +105,12 @@ String VictronCharger::getStringState(int cs) {
 ///////////////////////////////////////////////private//////////////////////
 
 void VictronCharger::_readVEData() {
-  while ( VICTRON_SERIAL.available() ) {
-    _myve->rxData(VICTRON_SERIAL.read());
-    _data_count++;
-  }
-  yield();
+	  uint64_t timeOld = millis();
+	  while ( VICTRON_SERIAL.available() && (timeOld + TIME_OUT_READ_SERIAL > millis()) ) {
+	    _myve->rxData(VICTRON_SERIAL.read());
+	    _data_count++;
+	  }
+	  //yield();
 }
 
 boolean VictronCharger::_isNumeric(char chStr[]) {

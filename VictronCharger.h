@@ -13,6 +13,8 @@
 
 
 #define VICTRON_SERIAL Serial3
+#define TIME_OUT_READ_SERIAL  2000
+#define READ_INTERVAL 60000
 
 class VictronCharger {
 public:
@@ -29,6 +31,7 @@ private:
 private:
 	VeDirectFrameHandler * _myve;
 	unsigned long _data_count;
+	uint32_t _lastRead;
 };
 
 #endif /* VICTRONCHARGER_H_ */
