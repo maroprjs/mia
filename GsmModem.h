@@ -8,7 +8,7 @@
 #ifndef GSMMODEM_H_
 #define GSMMODEM_H_
 #include <GSMSimSMS.h>
-#define SUBSCRIBER_NUMBER "+8888888"
+#define SUBSCRIBER_NR "+8888888"
 class GsmModem {
 public:
 	GsmModem(HardwareSerial *serial, int8_t rstpin, uint32_t bdrate = 4800);

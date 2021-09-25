@@ -32,18 +32,20 @@ void MiaUI::loop(){
 		//processSMS(swInfo);
 		String reply = "";
 	    String cmd = "";
-		_gsm->_newMsgArrived = false;//message read
 		cmd = _gsm->_message; 
-    cmd = cmd.trim();
-    cmd = cmd.toLowerCase();
- 	  if (mmi(cmd)){
+		cmd = cmd.trim();
+		cmd = cmd.toLowerCase();
+		if (mmi(cmd)){
 			//_gsm->sms->receiver = _gsm->sms->sender;
 			_gsm->_message = cmd;
 			_gsm->_sms->send(_gsm->_lastSender.c_str(), _gsm->_message.c_str());
 		}else{
-	         _gsm->_sms->send(_gsm->_lastSender.c_str(),"command unknown");
+			_gsm->_message = "command unknown";
+	         //_gsm->_sms->send(_gsm->_lastSender.c_str(),_gsm->_message.c_str());
+	         _gsm->_sms->send(_gsm->_lastSender.c_str(),_gsm->_message.c_str());
 	    }
 	    _gsm->_sms->deleteAll();
+		_gsm->_newMsgArrived = false;//message read
 	}
 
 	if (millis() > _lastCall + ONE_DAY){

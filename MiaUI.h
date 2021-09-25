@@ -14,7 +14,7 @@
 #include "VictronCharger.h"
 
 
-#define SUBSCRIBER_NUMBER "+88888888"
+//#define SUBSCRIBER_NR "+88888888"
 #define FIVE_MINUTES 300000
 #define THREE_DAYS 216000000
 #define ONE_DAY 86400000

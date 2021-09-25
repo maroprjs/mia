@@ -79,16 +79,16 @@ MiaUI miaUI(&gsm, &gw, &wlanRouter, &eltako ,&charger);
 
 void setup()
 {
-	Serial.begin(9600);
-	gsm.begin();
-	GATEWAY_SERIAL.begin(9600);
-	wlanPwr.begin();
-	gwPwr.begin();
-	wlanButton.begin();
-	wlanRouter.begin();
-	gw.begin();
-    eltako.begin();
-	charger.begin();
+	Serial.begin(9600); delay(500);
+	gsm.begin(); delay(500);
+	//GATEWAY_SERIAL.begin(9600);
+	wlanPwr.begin(); delay(500);
+	gwPwr.begin(); delay(500);
+	wlanButton.begin(); delay(500);
+	wlanRouter.begin(); delay(500);
+	gw.begin(); delay(500);
+    eltako.begin(); delay(500);
+	charger.begin(); delay(500);
 	miaUI.begin();
 
 }

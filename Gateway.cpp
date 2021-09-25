@@ -18,6 +18,7 @@ Gateway::Gateway(LatchingRelay* pwr) {
 }
 
 void Gateway::begin(){
+	GATEWAY_SERIAL.begin(9600);
 	//Serial.println("gw _pwr->off()");
 	//_pwr->off();
 	//startShutDown(LONG_COUNTDOWN); //<-better to shut it down in a controlled way, in case gw is used for programming
