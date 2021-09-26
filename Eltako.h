@@ -9,7 +9,7 @@
 #define ELTAKO_H_
 #include "Arduino.h"
 
-#define READ_INTERVAL 1000
+#define PROBE_READ_INTERVAL 1000
 #define THRESHOLD  300 // 470k:100k
 #define AVERAGE_COUNT 10
 

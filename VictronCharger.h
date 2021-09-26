@@ -13,8 +13,8 @@
 
 
 #define VICTRON_SERIAL Serial3
-#define TIME_OUT_READ_SERIAL  2000
-#define READ_INTERVAL 60000
+#define TIME_OUT_READ_CHG_SERIAL  5000
+#define CHARGER_READ_INTERVAL 60000
 
 class VictronCharger {
 public:

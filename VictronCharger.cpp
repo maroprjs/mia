@@ -21,11 +21,11 @@ void VictronCharger::begin(){
 }
 
 void VictronCharger::loop(){
-	if (millis() > _lastRead + READ_INTERVAL){
+	//if (millis() > _lastRead + CHARGER_READ_INTERVAL){
 		  // Receive information on Serial from MPPT
 		  _readVEData();
 		_lastRead = millis();
-	}
+	//}
 
 }
 
@@ -106,7 +106,7 @@ String VictronCharger::getStringState(int cs) {
 
 void VictronCharger::_readVEData() {
 	  uint64_t timeOld = millis();
-	  while ( VICTRON_SERIAL.available() && (timeOld + TIME_OUT_READ_SERIAL > millis()) ) {
+	  while ( VICTRON_SERIAL.available() && (timeOld + TIME_OUT_READ_CHG_SERIAL > millis()) ) {
 	    _myve->rxData(VICTRON_SERIAL.read());
 	    _data_count++;
 	  }

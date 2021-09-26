@@ -26,12 +26,12 @@ void Eltako::begin(){
 }
 void Eltako::loop(){
 
-	if (millis() > _lastTimeRead + READ_INTERVAL){
+	if (millis() > _lastTimeRead + PROBE_READ_INTERVAL){
 		_accumulatedProbe4Avrg = _accumulatedProbe4Avrg + analogRead(_probePin);
 		_pobeCount4Avrg++;
 		if (_pobeCount4Avrg >= AVERAGE_COUNT){
 			_currentProbeValue = _accumulatedProbe4Avrg / _pobeCount4Avrg;
-      Serial.println(_currentProbeValue);
+      Serial.print("current Probe: ");Serial.println(_currentProbeValue);
 			_accumulatedProbe4Avrg = 0;
 			_pobeCount4Avrg = 0;
 		}

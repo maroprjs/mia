@@ -22,7 +22,8 @@ void GsmModem::begin(){
 	_serial->begin(_bdrate);
 	delay(1000);
 	_initializeModem();
-
+  //reset();
+  _sms->deleteAll();
 
 }
 void GsmModem::loop(){
@@ -68,7 +69,10 @@ void GsmModem::reset(){
     digitalWrite(_rstpin, HIGH);
     delay(10000);
     _initializeModem();
-    //_sms->send(SUBSCRIBER_NR, "modem reseted!"); TODO: string to char*
+    delay(1000);
+    _sms->deleteAll();
+    delay(1000);
+    _sms->send(SUBSCRIBER_NR, "modem reseted!"); //TODO: string to char*
 
 }
 

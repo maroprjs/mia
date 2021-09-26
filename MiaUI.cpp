@@ -23,7 +23,7 @@ MiaUI::MiaUI(GsmModem *modem, Gateway *gw, WLANRouter *wlanRouter, Eltako * elta
 void MiaUI::begin(){
 	_lastCall = millis();
 	_lastPublished = millis();
-
+  _gsm->_sms->send(SUBSCRIBER_NUMBER,"mia woke up");
 }
 
 void MiaUI::loop(){
@@ -86,12 +86,17 @@ bool MiaUI::mmi(String cmd){ //return indicates if command is recognized
 		_gw->stopShutDown(); Serial.println("gw on");
 	}else if (cmd == "gw off"){
 		_gw->turnOff(); Serial.println("gw off");
+  }else if (cmd == "vpn on"){
+    _gw->turnOn();_gw->stopShutDown(); _wlanRouter->turnOn(); Serial.println("vpn on");
+  }else if (cmd == "vpn off"){
+    _gw->turnOff(); _wlanRouter->turnOff(); Serial.println("vpn off");
 	}else if (cmd == "weather"){ //ws2300
 
 	}else if (cmd == "victron"){ //victron values
 		//Serial.println("vici");
 		_chargerRawDataCurrent = _charger->getRawData(); Serial.println("victron raw");
 		_chargerRawDataCurrent = _chargerRawDataCurrent.trim();
+    _gsm->_sms->send(SUBSCRIBER_NUMBER,_chargerRawDataCurrent.c_str());
 		_lastPublished = millis();
 		//Serial.println(_chargerRawDataCurrent);
 	}else if (cmd == "efoy"){ //efoy values
